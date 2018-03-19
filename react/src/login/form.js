@@ -11,12 +11,6 @@ export default class Form extends Component {
         }
     }
 
-    componentDidMount() {
-        axios.get('/test').then(res => {
-            console.log(res)
-        })
-    }
-
     handleChange = (name, value) => {
         this.setState({[name]: value}, () => {
             console.log(this.state)
@@ -31,8 +25,11 @@ export default class Form extends Component {
         axios.post('/login', {
             email, password
         })
-        .then((res) => {
-            console.log(res)
+        .then(res => {
+            window.location.href = '/'
+        })
+        .catch(err => {
+            window.location.href = '/'            
         })
     }
 

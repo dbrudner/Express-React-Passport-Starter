@@ -10,23 +10,20 @@ module.exports = function(app, passport) {
 
     // Check if a user is logged in
     app.get('/test', function(req, res) {
-        console.log('req.user')
         res.json(req.user)
     })
 
+    // Logout
+    app.get('/logout', function(req, res){
+        req.session.destroy();
+        req.logout();
+      });
+
     // Signup
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/',
-        failureRedirect: '/login',
-        failureFlash: true
-    }));
+    app.post('/signup', passport.authenticate('local-signup', {}));
 
     // Login
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/', 
-        failureRedirect: '/login',
-        failureFlash: true
-    }));
+    app.post('/login', passport.authenticate('local-login', {}));
 
     // Serves react stuff.
     // app.get('*', (req, res) => {
