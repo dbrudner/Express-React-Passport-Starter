@@ -1,4 +1,3 @@
-
 const express  = require('express');
 const app      = express();
 const port     = process.env.PORT || 5000;
@@ -14,6 +13,8 @@ const dbname = 'testdb'
 
 const developmentUrl = `mongodb://localhost/${dbname}`
 
+const routes = require('./app/routes')
+
 if (process.env.MONGODB_URI) {
     mongoose.connect(process.env.MONGODB_URI)
 } else {
@@ -24,7 +25,7 @@ if (process.env.MONGODB_URI) {
 
 app.use(express.static(path.join(__dirname, 'react/build')));
 
-require('./config/passport')(passport); 
+require('./config/passport')(passport);
 
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
@@ -34,8 +35,13 @@ app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secre
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
-// routes ======================================================================h
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+// routes ======================================================================
+// routes.userRoutes(app, passport);
+// routes.keyboardRoutes(app);
+// routes.reactRoutes(app);
+routes(app, passport)
+
+
 
 // launch ======================================================================
 app.listen(port);
